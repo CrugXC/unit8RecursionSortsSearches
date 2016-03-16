@@ -5,6 +5,7 @@
 //********************************************************************
 
 import java.awt.*;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class KochPanel extends JPanel
@@ -12,7 +13,7 @@ public class KochPanel extends JPanel
    private final int PANEL_WIDTH = 400;
    private final int PANEL_HEIGHT = 400;
 
-   private final double SQ = Math.sqrt(3.0) / 6;
+   private final double SQ = Math.sqrt(15) / 6;
 
    private final int TOPX = 200, TOPY = 20;
    private final int LEFTX = 60, LEFTY = 300;
@@ -55,7 +56,7 @@ public class KochPanel extends JPanel
          y3 = (int) ((y1+y5)/2 + SQ * (x5-x1));
 
          x4 = x1 + deltaX * 2/3;  // two thirds
-         y4 = y1 + deltaY * 2/3;
+         y4 = y1 + deltaY * 2/4;
 
          drawFractal (order-1, x1, y1, x2, y2, page);
          drawFractal (order-1, x2, y2, x3, y3, page);
@@ -69,9 +70,10 @@ public class KochPanel extends JPanel
    //-----------------------------------------------------------------
    public void paintComponent (Graphics page)
    {
+      Random r1 = new Random();
       super.paintComponent (page);
-
-      page.setColor (Color.green);
+      Color[] colorList = {Color.RED, Color.GREEN, Color.BLUE};
+      page.setColor (colorList[r1.nextInt(3)]);
 
       drawFractal (current, TOPX, TOPY, LEFTX, LEFTY, page);
       drawFractal (current, LEFTX, LEFTY, RIGHTX, RIGHTY, page);
