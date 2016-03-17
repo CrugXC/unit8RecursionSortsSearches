@@ -6,15 +6,16 @@ import javax.swing.JPanel;
 
 public class TreePanel extends JPanel
 {
-   private final int PANEL_WIDTH = 1000;
-   private final int PANEL_HEIGHT = 1100;
+   private final int PANEL_WIDTH = 1920;
+   private final int PANEL_HEIGHT = 1080;
 
-   private final double RATIO = 0.8;
+   private final double RATIO = 0.87;
 
    private int current; 
    
    private final double BTHETA = Math.toRadians(30.0);
-
+   private final double BTHETA2 = Math.toRadians(10.0);
+   
    public TreePanel (int currentOrder)
    {
       current = currentOrder;
@@ -26,31 +27,39 @@ public class TreePanel extends JPanel
    public void drawFractal (int order, double x1, double y1, double theta, double distance,
                             Graphics2D g2)
    {
-      double deltaX, deltaY, x2, y2, x3, y3;
+      double deltaXPlus, deltaYPlus, deltaXMinus, deltaYMinus, x2, y2, x3, y3, plusTheta, minusTheta;
+      Random r1 = new Random();
       
       distance *= RATIO;
-      theta += BTHETA;
+      plusTheta = theta + BTHETA;
+      minusTheta = theta - BTHETA2;
       
-      if (order == 1)
-      { 
-        g2.draw(new Line2D.Double(x1, y1, x1, y1 + distance));
-      }
-      if(order == 10)
+      if(order >= 20 || order == 1)
       {
+          return;
       }
       else
       {
-          deltaX = x1 + (distance * Math.sin(theta));
-          deltaY = y1 + (distance * Math.cos(theta));
+          deltaXPlus = (distance * Math.sin(plusTheta));
+          deltaYPlus = (distance * Math.cos(plusTheta));
           
-          x2 = x1 - deltaX;
-          y2 = y1 - deltaY;
+          deltaXMinus = (distance * Math.sin(minusTheta));
+          deltaYMinus = (distance * Math.cos(minusTheta));
           
-          x3 = x1 - deltaX;
-          y3 = y1 - deltaY;
+          x2 = x1 - deltaXPlus;
+          y2 = y1 - deltaYPlus;
           
-          drawFractal(order + 1, x2, y2, theta, distance, g2);
-          drawFractal(order + 1, x3, y3, theta, distance, g2);
+          x3 = x1 - deltaXMinus;
+          y3 = y1 - deltaYMinus;
+          
+          g2.setColor(new Color(0, (int)(255 * (y2/1080)>1?1:(x2/1080)), (int)(255 * (y2/1920)>1?1:(y2/1920)))); 
+          g2.draw(new Line2D.Double(x1, y1, x2, y2));
+          
+          g2.setColor(new Color(0, (int)(255 * (x3/1080)>1?1:(x3/1080)), (int)(255 * (y3/1920)>1?1:(y3/1920))));
+          g2.draw(new Line2D.Double(x1, y1, x3, y3));
+          
+          drawFractal(order - 1, x2, y2, plusTheta, distance, g2);
+          drawFractal(order - 1, x3, y3, minusTheta, distance, g2);
       }
    }
 
@@ -61,11 +70,12 @@ public class TreePanel extends JPanel
    {
       Graphics2D g2 = (Graphics2D) page;
       Random r1 = new Random();
-      super.paintComponent (page);
+      super.paintComponent (g2);
       Color[] colorList = {Color.RED, Color.GREEN, Color.BLUE};
-      page.setColor (colorList[r1.nextInt(3)]);
+      g2.setColor (colorList[r1.nextInt(3)]);
       
-      drawFractal (current, 500.0, 150.0, BTHETA, 100.0, g2);
+      g2.draw(new Line2D.Double(970, 800, 970, 1000));
+      drawFractal (current, 970, 800, 0, 100.0, g2);
    }
 
    //-----------------------------------------------------------------

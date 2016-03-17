@@ -14,7 +14,7 @@ public class FractalViewer implements ActionListener
     private final int WIDTH = 1000;
     private final int HEIGHT = 1200;
 
-    private final int MIN = 1, MAX = 200;
+    private final int MIN = 1, MAX = 20;
     
     private JButton increase, decrease;
     private JLabel titleLabel, orderLabel;
