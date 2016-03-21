@@ -1,26 +1,29 @@
-
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.*;
 import java.util.Random;
 import javax.swing.JPanel;
 
-public class TreePanel extends JPanel
+public class TreePanel extends JPanel implements KeyListener
 {
-   private final int PANEL_WIDTH = 1920;
-   private final int PANEL_HEIGHT = 1080;
+   private final int PANEL_WIDTH = 1600;
+   private final int PANEL_HEIGHT = 900;
 
-   private final double RATIO = 0.87;
+   private final double RATIO = 0.72;
 
    private int current; 
    
-   private final double BTHETA = Math.toRadians(30.0);
-   private final double BTHETA2 = Math.toRadians(10.0);
+   private final double BTHETA = Math.toRadians(50.0);
+   private final double BTHETA2 = Math.toRadians(20.0);
    
    public TreePanel (int currentOrder)
    {
       current = currentOrder;
       setBackground (Color.black);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+      addKeyListener(this);
+      this.setFocusable(true);
+      this.requestFocusInWindow();
    }
 
 
@@ -52,14 +55,22 @@ public class TreePanel extends JPanel
           x3 = x1 - deltaXMinus;
           y3 = y1 - deltaYMinus;
           
-          g2.setColor(new Color(0, (int)(255 * (y2/1080)>1?1:(x2/1080)), (int)(255 * (y2/1920)>1?1:(y2/1920)))); 
-          g2.draw(new Line2D.Double(x1, y1, x2, y2));
+          g2.setStroke(new BasicStroke((float)distance/10));
           
-          g2.setColor(new Color(0, (int)(255 * (x3/1080)>1?1:(x3/1080)), (int)(255 * (y3/1920)>1?1:(y3/1920))));
-          g2.draw(new Line2D.Double(x1, y1, x3, y3));
-          
-          drawFractal(order - 1, x2, y2, plusTheta, distance, g2);
-          drawFractal(order - 1, x3, y3, minusTheta, distance, g2);
+          if (x2 < 1920 && x2 > 0 && y2 < 1080 && y2 > 0)
+          {
+             g2.setStroke(new BasicStroke((float)distance/12));
+             g2.setColor(new Color(0, (int)(255 * (((x2/1920)>1 || (x2/1920)<0)?1:(x2/1920))), (int)(255 * (((y2/1080>1 || (y2/1080)<0))?1:(y2/1080))))); 
+             g2.draw(new Line2D.Double(x1, y1, x2, y2));
+             drawFractal(order - 1, x2, y2, plusTheta, distance, g2);
+          }
+          if (x3 < 1920 && x3 > 0 && y3 < 1080 && y3 > 0)
+          {
+             g2.setStroke(new BasicStroke((float)distance/12));
+             g2.setColor(new Color(0, (int)(255 * (((x3/1920)>1 || (x3/1920)<0)?1:(x3/1920))), (int)(255 * (((y3/1080>1 || (y3/1080)<0))?1:(y3/1080))))); 
+             g2.draw(new Line2D.Double(x1, y1, x3, y3));
+             drawFractal(order - 1, x3, y3, minusTheta, distance, g2);
+          }
       }
    }
 
@@ -69,13 +80,12 @@ public class TreePanel extends JPanel
    public void paintComponent (Graphics page)
    {
       Graphics2D g2 = (Graphics2D) page;
-      Random r1 = new Random();
       super.paintComponent (g2);
-      Color[] colorList = {Color.RED, Color.GREEN, Color.BLUE};
-      g2.setColor (colorList[r1.nextInt(3)]);
+      g2.setColor (new Color(255,255,255));
+      g2.setStroke(new BasicStroke(20));
       
-      g2.draw(new Line2D.Double(970, 800, 970, 1000));
-      drawFractal (current, 970, 800, 0, 100.0, g2);
+      g2.draw(new Line2D.Double(PANEL_WIDTH/2, 600, PANEL_WIDTH/2, 900));
+      drawFractal (current, PANEL_WIDTH/2, 600, 0, 200.0, g2);
    }
 
    //-----------------------------------------------------------------
@@ -93,4 +103,25 @@ public class TreePanel extends JPanel
    {
       return current;
    }
+   
+   public void keyPressed (KeyEvent event)
+    {
+        
+        if (event.getKeyChar() == 38)
+            current++;
+        else if (event.getKeyChar() == 40)
+            current--;
+
+
+    }
+    
+    public void keyReleased (KeyEvent event)
+    {
+        
+    }
+    
+    public void keyTyped (KeyEvent event)
+    {
+        
+    }
 }

@@ -1,18 +1,11 @@
-//********************************************************************
-//  KochSnowflakeViewer.java       Author: Lewis/Loftus/Cocking
-//
-//  Demonstrates the use of recursion.
-//  @gcschmit (19 July 2014): converted from an applet to an application
-//********************************************************************
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class FractalViewer implements ActionListener
 {
-    private final int WIDTH = 1000;
-    private final int HEIGHT = 1200;
+    private final int WIDTH = 1920;
+    private final int HEIGHT = 1080;
 
     private final int MIN = 1, MAX = 20;
     
@@ -60,7 +53,8 @@ public class FractalViewer implements ActionListener
         tools.add (orderLabel);
 
         drawing = new TreePanel (1);
-
+        
+        
         panel = new JPanel();
         panel.add (tools);
         panel.add (drawing);
@@ -88,6 +82,5 @@ public class FractalViewer implements ActionListener
             drawing.setOrder (order);
             frame.repaint();
         }
-    }
-    
+    } 
 }
