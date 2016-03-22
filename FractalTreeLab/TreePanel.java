@@ -3,6 +3,7 @@ import java.awt.geom.Line2D;
 import java.awt.*;
 import java.util.Random;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 public class TreePanel extends JPanel implements KeyListener
 {
@@ -13,8 +14,10 @@ public class TreePanel extends JPanel implements KeyListener
 
    private int current; 
    
-   private final double BTHETA = Math.toRadians(50.0);
-   private final double BTHETA2 = Math.toRadians(20.0);
+   private final double BTHETA = Math.toRadians(60.0);
+   private final double BTHETA2 = Math.toRadians(00.0);
+   
+   private String choice;
    
    public TreePanel (int currentOrder)
    {
@@ -24,6 +27,16 @@ public class TreePanel extends JPanel implements KeyListener
       addKeyListener(this);
       this.setFocusable(true);
       this.requestFocusInWindow();
+      
+      Object[] possibilities = {"Evergreen", "Choice 2", "Choice 3"};
+      choice = (String)JOptionPane.showInputDialog(
+                null,
+                "Choose a Pattern",
+                "Input",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                possibilities[0]);
    }
 
 
@@ -37,7 +50,7 @@ public class TreePanel extends JPanel implements KeyListener
       plusTheta = theta + BTHETA;
       minusTheta = theta - BTHETA2;
       
-      if(order >= 20 || order == 1)
+      if(order > 20 || order == 1)
       {
           return;
       }
@@ -54,8 +67,7 @@ public class TreePanel extends JPanel implements KeyListener
           
           x3 = x1 - deltaXMinus;
           y3 = y1 - deltaYMinus;
-          
-          g2.setStroke(new BasicStroke((float)distance/10));
+ 
           
           if (x2 < 1920 && x2 > 0 && y2 < 1080 && y2 > 0)
           {
@@ -84,8 +96,10 @@ public class TreePanel extends JPanel implements KeyListener
       g2.setColor (new Color(255,255,255));
       g2.setStroke(new BasicStroke(20));
       
-      g2.draw(new Line2D.Double(PANEL_WIDTH/2, 600, PANEL_WIDTH/2, 900));
-      drawFractal (current, PANEL_WIDTH/2, 600, 0, 200.0, g2);
+      //g2.draw(new Line2D.Double(PANEL_WIDTH/2, 600, PANEL_WIDTH/2, 900));
+      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 0, 200.0, g2);
+      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 720, 200.0, g2);
+      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 360, 200.0, g2);
    }
 
    //-----------------------------------------------------------------
