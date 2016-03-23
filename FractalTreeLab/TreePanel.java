@@ -5,7 +5,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
-public class TreePanel extends JPanel implements KeyListener
+public class TreePanel extends JPanel
 {
    private final int PANEL_WIDTH = 1600;
    private final int PANEL_HEIGHT = 900;
@@ -24,9 +24,7 @@ public class TreePanel extends JPanel implements KeyListener
       current = currentOrder;
       setBackground (Color.black);
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-      addKeyListener(this);
       this.setFocusable(true);
-      this.requestFocusInWindow();
       
       Object[] possibilities = {"Evergreen", "Choice 2", "Choice 3"};
       choice = (String)JOptionPane.showInputDialog(
@@ -118,24 +116,7 @@ public class TreePanel extends JPanel implements KeyListener
       return current;
    }
    
-   public void keyPressed (KeyEvent event)
-    {
-        
-        if (event.getKeyChar() == 38)
-            current++;
-        else if (event.getKeyChar() == 40)
-            current--;
-
-
-    }
+   
     
-    public void keyReleased (KeyEvent event)
-    {
-        
-    }
-    
-    public void keyTyped (KeyEvent event)
-    {
-        
-    }
+   
 }

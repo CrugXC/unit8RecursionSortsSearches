@@ -27,7 +27,7 @@ public class FractalViewer implements ActionListener
     {
         tools = new JPanel ();
         tools.setLayout (new BoxLayout(tools, BoxLayout.X_AXIS));
-        tools.setBackground (Color.yellow);
+        tools.setBackground (Color.blue);
         tools.setOpaque (true);
 
         titleLabel = new JLabel ("Fractal Tree");
@@ -53,7 +53,7 @@ public class FractalViewer implements ActionListener
         tools.add (orderLabel);
 
         drawing = new TreePanel (1);
-        
+        drawing.addKeyListener(new KeyList());
         
         panel = new JPanel();
         panel.add (tools);
@@ -65,16 +65,53 @@ public class FractalViewer implements ActionListener
         frame.setSize(WIDTH, HEIGHT);
         frame.add(panel);
         frame.setVisible(true);
+        drawing.requestFocusInWindow();
+    }
+    
+    public class KeyList implements KeyListener
+    {
+        public void keyPressed (KeyEvent event)
+        {
+            int order = drawing.getOrder();
+            System.out.println(event.getKeyCode());
+            if (event.getKeyCode() == 38)
+            {
+                order++;
+                System.out.println("Up");
+            }
+            else if (event.getKeyCode() == 40)
+            {
+                order--;
+                System.out.println("Down");
+            }
+            order(order);
+        }
+        
+        public void keyReleased (KeyEvent event)
+        {
+        
+        }
+    
+        public void keyTyped (KeyEvent event)
+        {
+        
+        }
     }
     
     public void actionPerformed (ActionEvent event)
     {
         int order = drawing.getOrder();
-
+        
         if (event.getSource() == increase)
             order++;
         else
             order--;
+
+        this.order(order);
+    }
+    
+    public void order(int order)
+    {
 
         if (order >= MIN && order <= MAX)
         {
@@ -82,5 +119,7 @@ public class FractalViewer implements ActionListener
             drawing.setOrder (order);
             frame.repaint();
         }
-    } 
+        
+        drawing.requestFocusInWindow();
+    }
 }
