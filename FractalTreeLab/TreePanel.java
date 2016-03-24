@@ -18,7 +18,8 @@ public class TreePanel extends JPanel
    private final double BTHETA2 = Math.toRadians(00.0);
    
    private String choice;
-   
+   private String color1;
+   private String color2;
    public TreePanel (int currentOrder)
    {
       current = currentOrder;
@@ -35,6 +36,25 @@ public class TreePanel extends JPanel
                 null,
                 possibilities,
                 possibilities[0]);
+                
+      Object[] colors = {"Red", "Blue", "Green"};
+      color1 = (String)JOptionPane.showInputDialog(
+                null,
+                "Choose a Color",
+                "Input",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                colors,
+                colors[0]);
+                
+      color2 = (String)JOptionPane.showInputDialog(
+                null,
+                "Choose a Color",
+                "Input",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                colors,
+                colors[0]);
    }
 
 
@@ -70,14 +90,20 @@ public class TreePanel extends JPanel
           if (x2 < 1920 && x2 > 0 && y2 < 1080 && y2 > 0)
           {
              g2.setStroke(new BasicStroke((float)distance/12));
-             g2.setColor(new Color(0, (int)(255 * (((x2/1920)>1 || (x2/1920)<0)?1:(x2/1920))), (int)(255 * (((y2/1080>1 || (y2/1080)<0))?1:(y2/1080))))); 
+             //g2.setColor(new Color(0, (int)(255 * (((x2/1920)>1 || (x2/1920)<0)?1:(x2/1920))), (int)(255 * (((y2/1080>1 || (y2/1080)<0))?1:(y2/1080))))); 
+             
+             g2.setColor(ColorCreator.generateColor(color1, color2, x2, y2));
+                          
              g2.draw(new Line2D.Double(x1, y1, x2, y2));
              drawFractal(order - 1, x2, y2, plusTheta, distance, g2);
           }
           if (x3 < 1920 && x3 > 0 && y3 < 1080 && y3 > 0)
           {
              g2.setStroke(new BasicStroke((float)distance/12));
-             g2.setColor(new Color(0, (int)(255 * (((x3/1920)>1 || (x3/1920)<0)?1:(x3/1920))), (int)(255 * (((y3/1080>1 || (y3/1080)<0))?1:(y3/1080))))); 
+             //g2.setColor(new Color(0, (int)(255 * (((x3/1920)>1 || (x3/1920)<0)?1:(x3/1920))), (int)(255 * (((y3/1080>1 || (y3/1080)<0))?1:(y3/1080))))); 
+             
+             g2.setColor(ColorCreator.generateColor(color1, color2, x3, y3));
+             
              g2.draw(new Line2D.Double(x1, y1, x3, y3));
              drawFractal(order - 1, x3, y3, minusTheta, distance, g2);
           }
