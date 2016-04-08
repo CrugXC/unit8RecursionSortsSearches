@@ -27,7 +27,7 @@ public class TreePanel extends JPanel
       setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
       this.setFocusable(true);
       
-      Object[] possibilities = {"Evergreen", "Choice 2", "Choice 3"};
+      Object[] possibilities = {"Evergreen", "Shrapnel", "Choice 3"};
       choice = (String)JOptionPane.showInputDialog(
                 null,
                 "Choose a Pattern",
@@ -120,10 +120,19 @@ public class TreePanel extends JPanel
       g2.setColor (new Color(255,255,255));
       g2.setStroke(new BasicStroke(20));
       
-      //g2.draw(new Line2D.Double(PANEL_WIDTH/2, 600, PANEL_WIDTH/2, 900));
-      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 0, 200.0, g2);
-      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 720, 200.0, g2);
-      drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 360, 200.0, g2);
+      
+      
+      if(choice.equals("Evergreen"))
+      {
+          drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 0, 200.0, g2);
+          drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 720, 200.0, g2);
+          drawFractal (current, PANEL_WIDTH/2, PANEL_HEIGHT/2, 360, 200.0, g2);
+      }
+      else if(choice.equals("Shrapnel"))
+      {
+          g2.draw(new Line2D.Double(PANEL_WIDTH/2, 600, PANEL_WIDTH/2, 900));
+          drawFractal (current, PANEL_WIDTH/2, 600, -127, 300, g2);
+      }
    }
 
    //-----------------------------------------------------------------
